@@ -1,100 +1,118 @@
-from CategoryDataHandler import CategoryDataHandler
+from Activity import Activity
 
 
 class Analyzer:
 
     def __init__(self, dayDataHandler, reportDate):
         self.date = reportDate
-        self.data = dayDataHandler.getData()
+        self.dayDataHandler = dayDataHandler
         self.categoryToTimeMapping = {}
         self.categoryDecompositionMapping = {}
         self.hourDecompositionMapping = {}
         self.totalTime = 0
+        self.activityList = []
+        self.lines = []
 
     def analyze(self, numberOfSecondsPerUnitsOfTime):
-        self.totalTime = numberOfSecondsPerUnitsOfTime * len(self.data) / 60
-        categorizer = CategoryDataHandler()
-        print("self.data")
-        print(self.data)
-        for activity in self.data:
-            category = categorizer.categorize(activity[1])
-            if category in self.categoryToTimeMapping:
-                self.categoryToTimeMapping[category] += 1
-            else:
-                self.categoryToTimeMapping[category] = 1
-
-            self.recordActivityInCategoryDecomposition(category, activity[1])
-            self.recordActivityinHourDecomposition(category, activity[0])
-        self.calculatePercentages()
+        self.totalTime = numberOfSecondsPerUnitsOfTime * \
+            len(self.dayDataHandler.getData()) / 60
+        self.recordActivities()
+        self.produceAnalysis()
         self.produceTxt()
 
-    def recordActivityInCategoryDecomposition(self, category, activity):
-        if category in self.categoryDecompositionMapping:
-            if activity in self.categoryDecompositionMapping[category]:
-                self.categoryDecompositionMapping[category][activity] += 1
-            else:
-                print(self.categoryToTimeMapping)
-                self.categoryToTimeMapping[category][activity] = 1
-        else:
-            self.categoryDecompositionMapping[category] = {}
-            self.categoryDecompositionMapping[category][activity] = 1
+    def recordActivities(self):
+        for activity in self.dayDataHandler.getData():
+            self.activityList.append(Activity(activity[1], activity[0]))
 
-    def recordActivityinHourDecomposition(self, category, time):
-        hour = int(time.split(",")[1].split(":")[0].strip())
-        if hour in self.hourDecompositionMapping:
-            if category in self.hourDecompositionMapping[hour]:
-                self.categoryDecompositionMapping[hour][category] += 1
-            else:
-                self.categoryDecompositionMapping[hour][category] = 1
-        else:
-            self.categoryDecompositionMapping[hour] = {}
-            self.categoryDecompositionMapping[hour][category] = 1
+    def produceAnalysis(self):
+        self.produceGeneralAnalysis()
+        self.produceHourlyAnalysis()
+        self.produceCategoryAnalysis()
 
-    def calculatePercentages(self):
+    def produceGeneralAnalysis(self):
+        for activity in self.activityList:
+            if activity.getCategory() in self.categoryToTimeMapping:
+                self.categoryToTimeMapping[activity.getCategory()] += 1
+            else:
+                self.categoryToTimeMapping[activity.getCategory()] = 1
+
+    def produceHourlyAnalysis(self):
+        for activity in self.activityList:
+            if activity.getHour() in self.hourDecompositionMapping:
+                if activity.getCategory() in self.hourDecompositionMapping[activity.getHour()]:
+                    self.hourDecompositionMapping[activity.getHour(
+                    )][activity.getCategory()] += 1
+                else:
+                    self.hourDecompositionMapping[activity.getHour(
+                    )][activity.getCategory()] = 1
+            else:
+                self.hourDecompositionMapping[activity.getHour()] = {}
+                self.hourDecompositionMapping[activity.getHour(
+                )][activity.getCategory()] = 1
+
+    def produceCategoryAnalysis(self):
+        for activity in self.activityList:
+            if activity.getCategory() in self.categoryDecompositionMapping:
+                if activity.getName() in self.categoryDecompositionMapping[activity.getCategory()]:
+                    self.categoryDecompositionMapping[activity.getCategory(
+                    )][activity.getName()] += 1
+                else:
+                    self.categoryDecompositionMapping[activity.getCategory(
+                    )][activity.getName()] = 1
+            else:
+                self.categoryDecompositionMapping[activity.getCategory()] = {}
+                self.categoryDecompositionMapping[activity.getCategory(
+                )][activity.getName()] = 1
+
+    def produceTxt(self):
+        self.produceTxtHeader()
+        self.produceTxtGeneralAnalysis()
+        self.produceTxtCategoryAnalysis()
+        self.produceTxtHourAnalysis()
+        self.writeDocument()
+
+    def produceTxtHeader(self):
+        self.lines.append("Report" + "\n")
+        self.lines.append("" + "\n")
+
+    def produceTxtGeneralAnalysis(self):
         totalTime = 0
         for category in self.categoryToTimeMapping:
             totalTime += self.categoryToTimeMapping[category]
 
+        self.lines.append("General Analysis" + "\n")
         for category in self.categoryToTimeMapping:
-            self.categoryToTimeMapping[category] = self.categoryToTimeMapping[category]/totalTime * 100
+            self.lines.append("      - " + category + ": " +
+                              str(self.categoryToTimeMapping[category]*100//totalTime) + "%")
+            self.lines.append("\n")
 
+    def produceTxtCategoryAnalysis(self):
+        self.lines.append("Category Analysis" + "\n")
+
+        print(self.categoryDecompositionMapping)
         for category in self.categoryDecompositionMapping:
-            categoryTotalTime = 0
+            categoryTime = 0
+            self.lines.append("      - " + category + ": " + "\n")
             for activity in self.categoryDecompositionMapping[category]:
-                categoryTotalTime += self.categoryDecompositionMapping[category][activity]
+                categoryTime += self.categoryDecompositionMapping[category][activity]
             for activity in self.categoryDecompositionMapping[category]:
-                self.categoryDecompositionMapping[category][activity] = self.categoryDecompositionMapping[
-                    category][activity] / categoryTotalTime * 100
+                self.lines.append("              + " + activity + ": " + str(
+                    self.categoryDecompositionMapping[category][activity]*100//categoryTime) + "%" + "\n")
 
+    def produceTxtHourAnalysis(self):
+        self.lines.append("Hourly Analysis" + "\n")
+
+        print(self.hourDecompositionMapping)
         for hour in self.hourDecompositionMapping:
-            hourTotalTime = 0
+            categoryTime = 0
+            self.lines.append("      - " + hour + ": " + "\n")
             for category in self.hourDecompositionMapping[hour]:
-                hourTotalTime += self.hourDecompositionMapping[hour][category]
+                categoryTime += self.hourDecompositionMapping[hour][category]
             for category in self.hourDecompositionMapping[hour]:
-                self.hourDecompositionMapping[hour][category] = self.hourDecompositionMapping[hour][category] / \
-                    categoryTotalTime * 100
+                self.lines.append("              + " + category + ": " + str(
+                    self.hourDecompositionMapping[hour][category]*100//categoryTime) + "%" + "\n")
 
-    def produceTxt(self):
-        with open("[REPORT] " + self.date + ".txt", 'w') as f:
-            f.write("Report" + "\n")
-            f.write("" + "\n")
-            f.write("General Analysis" + "\n")
-            for category in self.categoryToTimeMapping:
-                f.write("      - " + category + ": " +
-                        str(self.categoryToTimeMapping[category]) + "%" + "\n")
-
-            f.write("" + "\n")
-            f.write("By Category Decomposition" + "\n")
-            for category in self.categoryDecompositionMapping:
-                f.write("      - " + str(category) + "\n")
-                for activity in self.categoryDecompositionMapping[category]:
-                    f.write("              + " + activity + ": " +
-                            str(self.categoryToTimeMapping[category]) + "%" + "\n")
-
-            f.write("" + "\n")
-            f.write("By Hour Decomposition" + "\n")
-            for hour in self.hourDecompositionMapping:
-                f.write("      - " + str(hour) + "h" + "\n")
-                for category in self.hourDecompositionMapping[hour]:
-                    f.write("              + " + category + ": " +
-                            str(self.hourDecompositionMapping[hour]) + "%" + "\n")
+    def writeDocument(self):
+        with open("[REPORT]" + self.date + ".txt", "w") as file:
+            for line in self.lines:
+                file.write(line)

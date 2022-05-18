@@ -14,14 +14,11 @@ def waitSomeSeconds(nbSeconds):
 
 
 def main():
-    numberOfSecondsPerMeasurement = 15
+    numberOfSecondsPerMeasurement = 60
     while True:
         yesterdayDate = (datetime.datetime.today() -
-                         datetime.timedelta(minutes=1)).strftime("%H:%M")
-        if dayDataHandler.documentIsEmpty():
-            dayDataHandler.record(dayStartKeyword)
-            process()
-        elif yesterdayDate in dayDataHandler.getFirstTimeStamp():
+                         datetime.timedelta(days=1)).strftime("%m/%d/%Y")
+        if yesterdayDate in dayDataHandler.getFirstTimeStamp():
             analyzer = Analyzer(dayDataHandler, yesterdayDate)
             analyzer.analyze(numberOfSecondsPerMeasurement)
             dayDataHandler.clear()
