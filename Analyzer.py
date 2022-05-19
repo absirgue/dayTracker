@@ -74,6 +74,8 @@ class Analyzer:
     def produceTxtHeader(self):
         self.lines.append("Report" + "\n")
         self.lines.append("" + "\n")
+        self.lines.append("Total time recorded: " +
+                          str(self.totalTime) + " minutes" + "\n")
 
     def produceTxtGeneralAnalysis(self):
         totalTime = 0
@@ -89,7 +91,6 @@ class Analyzer:
     def produceTxtCategoryAnalysis(self):
         self.lines.append("Category Analysis" + "\n")
 
-        print(self.categoryDecompositionMapping)
         for category in self.categoryDecompositionMapping:
             categoryTime = 0
             self.lines.append("      - " + category + ": " + "\n")
@@ -102,7 +103,6 @@ class Analyzer:
     def produceTxtHourAnalysis(self):
         self.lines.append("Hourly Analysis" + "\n")
 
-        print(self.hourDecompositionMapping)
         for hour in self.hourDecompositionMapping:
             categoryTime = 0
             self.lines.append("      - " + hour + ": " + "\n")
@@ -113,6 +113,6 @@ class Analyzer:
                     self.hourDecompositionMapping[hour][category]*100//categoryTime) + "%" + "\n")
 
     def writeDocument(self):
-        with open("[REPORT]" + self.date + ".txt", "w") as file:
+        with open("[REPORT]"+self.date.replace("/", ".")+".txt", 'w+') as file:
             for line in self.lines:
                 file.write(line)

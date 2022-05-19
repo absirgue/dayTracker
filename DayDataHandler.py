@@ -1,3 +1,4 @@
+import csv
 from DataHandler import DataHandler
 from datetime import datetime
 
@@ -8,8 +9,14 @@ class DayDataHandler(DataHandler):
 
     def __init__(self):
         DataHandler.__init__(self)
-        self.lastTimeStamp = ""
-        self.data = self.loadData()
+        self.data = []
+        with open(self.fileName, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                tempList = []
+                tempList.append(row[0])
+                tempList.append(row[1])
+                self.data.append(tempList)
 
     def getFileName(self):
         return self.fileName
