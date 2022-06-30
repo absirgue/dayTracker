@@ -1,0 +1,82 @@
+Report
+
+Total time recorded: 580 minutes
+General Analysis
+      - Code: 1%
+      - Unknown Safari: 5%
+      - Work: 77%
+      - Texting: 11%
+      - MusicGitHub Desktop: 0%
+      - Mail: 2%
+      - Uncategorized: 1%
+Category Analysis
+      - Code: 
+              + Terminal: 28%
+              + Electron: 71%
+      - Unknown Safari: 
+              + Safari: 100%
+      - Work: 
+              + Microsoft Word: 42%
+              + Preview: 22%
+              + Microsoft Excel: 2%
+              + Finder: 0%
+              + zoom.us: 33%
+      - Texting: 
+              + WhatsApp: 100%
+      - MusicGitHub Desktop: 
+              + Spotify: 100%
+      - Mail: 
+              + Mail: 100%
+      - Uncategorized: 
+              + Microsoft Outlook: 85%
+              + System Preferences: 14%
+Hourly Analysis
+      - 11: 
+              + Unknown Safari: 87%
+              + Code: 12%
+      - 13: 
+              + Unknown Safari: 10%
+              + Work: 90%
+      - 12: 
+              + Unknown Safari: 5%
+              + Work: 91%
+              + Uncategorized: 3%
+      - 15: 
+              + Code: 1%
+              + Mail: 10%
+              + Work: 86%
+              + Unknown Safari: 1%
+      - 14: 
+              + Mail: 1%
+              + Work: 96%
+              + MusicGitHub Desktop: 1%
+      - 17: 
+              + Unknown Safari: 1%
+              + Mail: 1%
+              + Work: 92%
+              + Texting: 3%
+      - 16: 
+              + Work: 100%
+      - 19: 
+              + Unknown Safari: 13%
+              + Mail: 5%
+              + Work: 70%
+              + Texting: 3%
+              + Uncategorized: 8%
+      - 18: 
+              + Unknown Safari: 5%
+              + Work: 95%
+      - 09: 
+              + Code: 100%
+      - 22: 
+              + Texting: 100%
+      - 23: 
+              + Texting: 100%
+      - 20: 
+              + Unknown Safari: 6%
+              + Work: 36%
+              + Texting: 56%
+      - 21: 
+              + Unknown Safari: 3%
+              + Mail: 3%
+              + Texting: 93%

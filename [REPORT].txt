@@ -1,0 +1,45 @@
+Report
+
+Total time recorded: 84 minutes
+General Analysis
+      - Code: 27%
+      - Unknown Safari: 13%
+      - Texting: 4%
+      - Work: 34%
+      - YouTube: 19%
+      - Uncategorized: 1%
+Category Analysis
+      - Code: 
+              + Terminal: 26%
+              + Electron: 73%
+      - Unknown Safari: 
+              + Safari: 100%
+      - Texting: 
+              + WhatsApp: 100%
+      - Work: 
+              + Preview: 96%
+              + Microsoft PowerPoint: 3%
+      - YouTube: 
+              + wwwyoutube: 100%
+      - Uncategorized: 
+              + GitHub Desktop: 100%
+Hourly Analysis
+      - 19: 
+              + Code: 40%
+              + Work: 40%
+              + Texting: 20%
+      - 18: 
+              + Unknown Safari: 18%
+              + Texting: 1%
+              + Code: 3%
+              + YouTube: 29%
+              + Work: 46%
+      - 09: 
+              + Code: 100%
+      - 22: 
+              + Unknown Safari: 50%
+              + Code: 50%
+      - 17: 
+              + Code: 33%
+              + Texting: 33%
+              + Uncategorized: 33%
